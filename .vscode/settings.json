@@ -1,0 +1,6 @@
+{
+    "editor.fontSize": 18,
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.cursorStyle": "block"
+}

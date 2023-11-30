@@ -1,0 +1,28 @@
+<div class="author">
+    <h1 class="author__heading">Hi, I'm Solace</h1>
+    <p class="author__body">
+        A student and aspiring backend developer.
+    </p>
+</div>
+
+<img src="/img/hero-destiny.png" alt="takt op. destiny" class="hero-image" height="528" width="981">
+
+<section class="articles">
+    <h2 class="articles__heading">Posts</h2>
+
+    <ul class="article-ul">
+        <% data.forEach(post => { %>
+         
+            <li>
+                <a href="/post/<%= post._id %>">
+                    <span><%= post.title %></span>
+                    <span class="article-list__date"><%= post.createdAt.toDateString() %></span>
+                </a>
+            </li>
+        <% }) %>
+    </ul>
+
+    <% if (nextPage !== null) { %>
+        <a href="/?page=<%= nextPage %>">&lt; View Older Posts</a>
+    <% } %>
+</section>
