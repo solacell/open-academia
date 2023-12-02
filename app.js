@@ -52,3 +52,5 @@ app.use('/', require('./server/routes/admin'))
 app.listen(PORT, () => {
     console.log(`The server is running on the port ${PORT}`)
 });
+
+// solace
