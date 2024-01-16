@@ -16,7 +16,10 @@ body {
   font-family: 'Poppins', sans-serif;
   color: var(--black);
   font-size: var(--font-size-base);
-  background-color: #FAF5EE;
+
+  /* Background color for the website */
+  background-color: #ffb703;    
+  
   background-image: url("/img/img-noise-361x370.png");
   margin: 0;
 }
@@ -168,6 +171,7 @@ img {
 .author {
   padding: 10px 0;
   text-align: center;
+  color: #fff;
 }
 
 .author__heading {
@@ -235,10 +239,6 @@ img {
 
 .article-ul li:hover {
   filter: none;
-}
-
-.article-ul:hover li {
-  filter: blur(3px);
 }
 
 .article-ul:hover li:hover {
@@ -332,4 +332,8 @@ img {
 
 .pagination:hover {
   color: var(--black);
+}
+
+.admin-post-controls .btn {
+  padding: .5rem 1.5rem;
 }

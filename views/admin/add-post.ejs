@@ -10,8 +10,13 @@
     <input type="text" placeholder="Place Title" name="title">
 
     <label for="body"><b>Content</b></label>
-    <textarea name="body" cols="50" rows="10"></textarea>
-
+    <textarea name="body" cols="50" rows="10" id="textarea"></textarea>
+    
     <input type="submit" value="Add" class="btn">
+    <a href="#" class="btn" id="grammar">Grammar</a>
 
+    <script>
+        let grammarEl = document.getElementById("grammar");
+        console.log(grammarEl)
+    </script>
 </form>

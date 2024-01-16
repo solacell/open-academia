@@ -72,7 +72,7 @@ router.get('/dashboard',authMiddleware ,async (req, res) => {
 
 })
 
-router.get('/add-post',authMiddleware ,async (req, res) => {
+router.get('/add-post', authMiddleware ,async (req, res) => {
     const locals = {
         title: 'Add Post'
     }
@@ -112,13 +112,20 @@ router.put('/edit-post/:id',authMiddleware ,async (req, res) => {
 
     try {
 
-        await Post.findByIdAndUpdate(req.params.id, {
-            title: req.body.title,
-            body: req.body.body,
-            updatedAt: Date.now()
-        });
+        let articleBody = req.body.body;
+
+        if (provocativeLanguageChecker(articleBody)) {
+            res.render("admin/provocative-error");
+        } else {
+            await Post.findByIdAndUpdate(req.params.id, {
+                title: req.body.title,
+                body: req.body.body,
+                updatedAt: Date.now()
+            });
+            
+            res.redirect(`/edit-post/${req.params.id}`);
+        }
         
-        res.redirect(`/edit-post/${req.params.id}`);
     } catch (error) {
         console.log(error);
     }
@@ -138,25 +145,50 @@ router.delete('/delete-post/:id', authMiddleware, async (req, res) => {
 
 })
 
+const provocativeLanguageChecker = (articleBody) => {
+
+    let provocativeWords = ["Angry", "Beast", "Dead", "Demon", "Retard", "Conspiracy"];
+
+    for (const word of provocativeWords) {
+        
+        articleBody = articleBody.toLowerCase()
+
+        if (articleBody.includes(word.toLowerCase())) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+router.get('/provocative-error', authMiddleware, async(req, res) => {
+    res.render('admin/provocative-error')
+})
 
 router.post('/add-post',authMiddleware ,async (req, res) => {
     try {
-        console.log(req.body);
+        // console.log(req.body);
 
-        try {
+        let articleBody = req.body.body;
+
+        if (provocativeLanguageChecker(articleBody)) {
+            res.redirect("/provocative-error");
+        } else {
+            try {
             
-            const newPost = new Post(
-                {
-                    title: req.body.title,
-                    body: req.body.body
-                }
-            );
-
-            await Post.create(newPost);
-            res.redirect('/dashboard')
-
-        } catch (error) {
-            console.log(error);
+                const newPost = new Post(
+                    {
+                        title: req.body.title,
+                        body: req.body.body
+                    }
+                );
+    
+                await Post.create(newPost);
+                res.redirect('/dashboard')
+    
+            } catch (error) {
+                console.log(error);
+            }
         }
 
     } catch (error) {
@@ -220,14 +252,9 @@ router.post('/register', async (req, res) => {
 
 })
 
-// router.get('/logout', (req, res) => {
-//     res.clearCookie('token');
-//     //res.json({ message: 'Logout successful.'});
-//     res.redirect('/');
-//   });
-
 router.get('/logout', (req, res) => {
     res.clearCookie('token');
     res.redirect('/')
 })
+
 module.exports = router;

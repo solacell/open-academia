@@ -1,4 +1,38 @@
 <h1><%= data.title %></h1>
-<article class="article">
+
+<button onclick="toggleSpeak()" class="btn">Speak</button>
+
+<article class="article" id="article">
     <%= data.body %>
 </article>
+
+
+<script defer>
+    let isSpeaking = false;
+    let utterance;
+
+    function speak(text) {
+        window.speechSynthesis.cancel();
+
+        utterance = new SpeechSynthesisUtterance(text);
+
+        window.speechSynthesis.speak(utterance);
+
+        isSpeaking = true;
+
+        utterance.onend = function () {
+            isSpeaking = false;
+        };
+    }
+
+    function toggleSpeak() {
+        const articleText = document.getElementById("article").innerText;
+
+        if (isSpeaking) {
+            window.speechSynthesis.pause();
+            isSpeaking = false;
+        } else {
+            speak(articleText);
+        }
+    }
+</script>
